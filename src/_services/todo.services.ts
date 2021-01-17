@@ -1,5 +1,6 @@
 import { config } from '../_constants';
 import { authHeader, parseResponse } from '../_helpers';
+import dayjs from 'dayjs';
 
 export const todoService = {
   getTodos,
@@ -10,11 +11,33 @@ export const todoService = {
 export type Todo = {
   id: number;
   title: string;
+  description: string;
+  dueTime: Date | null;
+  tags: string[];
 };
 
-async function getTodos() {
+async function getTodos(): Promise<Todo[]> {
   const res = await fetch(`${config.apiUrl}/todos`, { method: 'GET', headers: authHeader() });
-  return (await parseResponse(res)) as Todo[];
+  const data = await parseResponse(res);
+  return data.map(
+    ({
+      id,
+      title,
+      description,
+      due_time,
+      tags
+    }: {
+      id: number;
+      title: string;
+      description: string;
+      due_time: string;
+      tags: string | null;
+    }) => {
+      const dueTime = due_time ? dayjs(due_time) : null;
+      const separated_tags = tags ? tags.split(',') : [];
+      return { id, title, description, dueTime, tags: separated_tags };
+    }
+  );
 }
 
 async function getTodo(id: number) {

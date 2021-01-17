@@ -27,7 +27,7 @@ class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
 
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
-    this.setState(state => ({ ...state, [name] : value }));
+    this.setState(state => ({ ...state, [name]: value }));
   }
 
   handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -70,6 +70,6 @@ class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({ loggingIn: !!state.authentication.loggingIn })
+const mapStateToProps = (state: RootState) => ({ loggingIn: !!state.authentication.loggingIn });
 const connectedLoginPage = connect(mapStateToProps)(LoginPage);
 export { connectedLoginPage as LoginPage };

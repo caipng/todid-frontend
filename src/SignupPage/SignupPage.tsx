@@ -35,7 +35,7 @@ class SignupPage extends React.Component<SignupPageProps, SignupPageState> {
 
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
-    this.setState(state => ({ ...state, [name]: value }))
+    this.setState(state => ({ ...state, [name]: value }));
   }
 
   handleSubmit(e: React.FormEvent<HTMLFormElement>) {
