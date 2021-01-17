@@ -4,6 +4,7 @@ import { User } from '../_services';
 
 type AuthenticationState = {
   loggingIn?: boolean;
+  error?: string;
   loggedIn?: boolean;
   user?: User;
   email?: string;
@@ -23,6 +24,7 @@ export function authentication(
     case userConstants.LOGIN_SUCCESS:
       return { loggedIn: true, user: action.user };
     case userConstants.LOGIN_FAILURE:
+      return { error: action.error };
     case userConstants.LOGOUT:
       return {};
     default:

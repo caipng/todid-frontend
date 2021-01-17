@@ -39,6 +39,7 @@ function login(email: string, password: string): AppThunk {
     userService.login(email, password).then(
       user => {
         dispatch(success(user));
+        dispatch(alertActions.success('signed in'));
         history.push('/');
       },
       error => {
