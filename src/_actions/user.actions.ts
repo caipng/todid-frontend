@@ -81,7 +81,7 @@ function signup(userSignupDetails: UserSignupDetails): AppThunk {
       error => {
         const errorMessage: string = error.message || error;
         dispatch(failure(errorMessage));
-        dispatch(alertActions.error(errorMessage));
+        dispatch(alertActions.error('Please check your details.'));
       }
     );
   };

@@ -3,3 +3,4 @@ export * from './history';
 export * from './parse-response';
 export * from './store';
 export * from './capitalize';
+export * from './use-input';

@@ -19,7 +19,6 @@ export type UserSignupDetails = {
   name: string;
   email: string;
   password: string;
-  password_confirmation: string;
 };
 
 async function login(email: string, password: string) {

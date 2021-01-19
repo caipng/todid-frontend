@@ -1,8 +1,7 @@
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { userActions, UserActionTypes } from '../_actions';
@@ -15,23 +14,35 @@ import { Footer } from '../_components';
 import Box from '@material-ui/core/Box';
 import useStyles from './styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Alert from '@material-ui/lab/Alert';
+import { useInput } from '../_helpers';
+import { User } from '../_services';
 
 type LoginPageProps = {
   dispatch: ThunkDispatch<RootState, undefined, UserActionTypes>;
   loggingIn: boolean;
   loginError: string | undefined;
+  signedUpUser: User | undefined;
 };
 
-function LoginPage({ dispatch, loggingIn, loginError }: LoginPageProps) {
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState({});
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState({});
+function LoginPage({ dispatch, loggingIn, loginError, signedUpUser }: LoginPageProps) {
+  const {
+    value: email,
+    setValue: setEmail,
+    setError: setEmailError,
+    props: emailProps
+  } = useInput();
+  const {
+    value: password,
+    setValue: setPassword,
+    setError: setPasswordError,
+    props: passwordProps
+  } = useInput();
+
   const classes = useStyles();
 
   useEffect(() => {
     dispatch(userActions.logout());
+    if (signedUpUser) setEmail(signedUpUser.email);
   }, []);
 
   useEffect(() => {
@@ -41,39 +52,25 @@ function LoginPage({ dispatch, loggingIn, loginError }: LoginPageProps) {
     }
   }, [loginError]);
 
-  const handleChange = ({
-    currentTarget: { name, value }
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    switch (name) {
-      case 'email':
-        setEmail(value);
-        setEmailError({});
-        break;
-      case 'password':
-        setPassword(value);
-        setPasswordError({});
-        break;
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | undefined = undefined) => {
+    e && e.preventDefault();
     if (email && password) {
       dispatch(userActions.login(email, password));
     } else {
-      if (!email) {
-        setEmailError({ error: true, helperText: 'Email cannot be empty' });
-      }
-      if (!password) {
-        setPasswordError({ error: true, helperText: 'Email cannot be empty' });
-      }
+      if (!email) setEmailError({ error: true, helperText: 'Email cannot be empty' });
+      if (!password) setPasswordError({ error: true, helperText: 'Password cannot be empty' });
     }
+  };
+
+  const demoSignin = () => {
+    setEmail('techlead@google.com');
+    setPassword('password');
   };
 
   return (
     <Grid container component="main" className={classes.root}>
       {loggingIn && <LinearProgress className={classes.progress} />}
-      <Grid item xs={false} sm={4} md={8} className={classes.image} />
+      <Grid item xs={false} sm={4} md={8} />
       <Grid
         item
         xs={12}
@@ -100,9 +97,7 @@ function LoginPage({ dispatch, loggingIn, loginError }: LoginPageProps) {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={handleChange}
-              value={email}
-              {...emailError}
+              {...emailProps}
             />
             <TextField
               variant="outlined"
@@ -114,9 +109,7 @@ function LoginPage({ dispatch, loggingIn, loginError }: LoginPageProps) {
               name="password"
               type="password"
               autoComplete="current-password"
-              onChange={handleChange}
-              value={password}
-              {...passwordError}
+              {...passwordProps}
             />
             <Button
               type="submit"
@@ -128,7 +121,11 @@ function LoginPage({ dispatch, loggingIn, loginError }: LoginPageProps) {
               Login
             </Button>
             <Grid container>
-              <Grid item xs></Grid>
+              <Grid item xs>
+                <Link onClick={demoSignin} className={classes.link} variant="body2">
+                  Demo Account
+                </Link>
+              </Grid>
               <Grid item>
                 <Link component={RouterLink} to="/signup" variant="body2">
                   Don't have an account? Sign up
@@ -147,7 +144,8 @@ function LoginPage({ dispatch, loggingIn, loginError }: LoginPageProps) {
 
 const mapStateToProps = (state: RootState) => ({
   loggingIn: !!state.authentication.loggingIn,
-  loginError: state.authentication.error
+  loginError: state.authentication.error,
+  signedUpUser: state.authentication.user
 });
 const connectedLoginPage = connect(mapStateToProps)(LoginPage);
 export { connectedLoginPage as LoginPage };

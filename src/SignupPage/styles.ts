@@ -1,27 +1,15 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100vh',
-    backgroundImage: 'url(https://source.unsplash.com/_M-DrbiNFa4)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center'
-  },
   paper: {
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    margin: theme.spacing(8, 4)
-  },
-  paperContainer: {
-    opacity: 0.98
+    alignItems: 'center'
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(3)
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -36,9 +24,9 @@ const useStyles = makeStyles(theme => ({
   logo: {
     width: 150,
     height: 150,
-    'margin-bottom': 30
+    'margin-bottom': 30,
   },
-  welcome: {
+  title: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     'font-weight': 600,
     'text-align': 'left',
@@ -52,9 +40,6 @@ const useStyles = makeStyles(theme => ({
     'z-index': 1500,
     width: '100%'
   },
-  link: {
-    cursor: 'pointer'
-  }
 }));
 
 export default useStyles;
