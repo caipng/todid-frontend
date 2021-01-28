@@ -25,7 +25,7 @@ export function authentication(
     case userConstants.SIGNUP_REQUEST:
       return { signingUp: true };
     case userConstants.SIGNUP_SUCCESS:
-      return { user: action.user }  
+      return { user: action.user };
     case userConstants.LOGIN_SUCCESS:
       return { loggedIn: true, user: action.user };
     case userConstants.SIGNUP_FAILURE:

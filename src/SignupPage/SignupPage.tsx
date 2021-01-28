@@ -1,5 +1,5 @@
 import { Container, Grid, TextField, Typography, Button, Link, Box } from '@material-ui/core';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
@@ -17,52 +17,51 @@ type SignupPageProps = {
 };
 
 function SignupPage({ dispatch, signingUp, signupError }: SignupPageProps) {
-  const {
-    value: firstName,
-    setError: setFirstNameError,
-    props: firstNameProps
-  } = useInput();
-  const {
-    value: lastName,
-    setError: setLastNameError,
-    props: lastNameProps
-  } = useInput();
-  const {
-    value: password,
-    setError: setPasswordError,
-    props: passwordProps
-  } = useInput();
+  const { value: firstName, setError: setFirstNameError, props: firstNameProps } = useInput();
+  const { value: lastName, setError: setLastNameError, props: lastNameProps } = useInput();
+  const { value: password, setError: setPasswordError, props: passwordProps } = useInput();
   const {
     value: passwordConfirmation,
     setError: setPasswordConfirmationError,
     props: passwordConfirmationProps
   } = useInput();
-  const {
-    value: email,
-    setError: setEmailError,
-    props: emailProps
-  } = useInput();
+  const { value: email, setError: setEmailError, props: emailProps } = useInput();
 
   useEffect(() => {
     if (signupError) {
       signupError.split('\n').forEach(error => {
-        if (error.match(/email/i)) setEmailError({ error: true, helperText: error })
-        if (error.match(/password/i)) setPasswordError({ error: true, helperText: error })
+        if (error.match(/email/i)) setEmailError({ error: true, helperText: error });
+        if (error.match(/password/i)) setPasswordError({ error: true, helperText: error });
       });
     }
   }, [signupError]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (firstName && lastName && password && passwordConfirmation && password === passwordConfirmation && email) {
-      dispatch(userActions.signup({ name: `${firstName} ${lastName}`, password, email}))
+    if (
+      firstName &&
+      lastName &&
+      password &&
+      passwordConfirmation &&
+      password === passwordConfirmation &&
+      email
+    ) {
+      dispatch(userActions.signup({ name: `${firstName} ${lastName}`, password, email }));
     } else {
-      if (!firstName) setFirstNameError({ error: true, helperText: 'First Name cannot be empty'});
-      if (!lastName) setLastNameError({ error: true, helperText: 'Last Name cannot be empty'});
-      if (!password) setPasswordError({ error: true, helperText: 'Password cannot be empty'});
-      if (!passwordConfirmation) setPasswordConfirmationError({ error: true, helperText: 'Password confirmation cannot be empty'});
-      if (passwordConfirmation && password !== passwordConfirmation) setPasswordConfirmationError({ error: true, helperText: 'Password confirmation does not match password'});
-      if (!email) setEmailError({ error: true, helperText: 'Email cannot be empty'});
+      if (!firstName) setFirstNameError({ error: true, helperText: 'First Name cannot be empty' });
+      if (!lastName) setLastNameError({ error: true, helperText: 'Last Name cannot be empty' });
+      if (!password) setPasswordError({ error: true, helperText: 'Password cannot be empty' });
+      if (!passwordConfirmation)
+        setPasswordConfirmationError({
+          error: true,
+          helperText: 'Password confirmation cannot be empty'
+        });
+      if (passwordConfirmation && password !== passwordConfirmation)
+        setPasswordConfirmationError({
+          error: true,
+          helperText: 'Password confirmation does not match password'
+        });
+      if (!email) setEmailError({ error: true, helperText: 'Email cannot be empty' });
     }
   };
 
@@ -71,8 +70,8 @@ function SignupPage({ dispatch, signingUp, signupError }: SignupPageProps) {
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-      {signingUp && <LinearProgress className={classes.progress} />}
-          <img src="/logo.png" alt="logo" className={classes.logo} />
+        {signingUp && <LinearProgress className={classes.progress} />}
+        <img src="/logo.png" alt="logo" className={classes.logo} />
         <Typography component="h1" variant="h4" className={classes.title}>
           Create Account
         </Typography>
@@ -160,8 +159,8 @@ function SignupPage({ dispatch, signingUp, signupError }: SignupPageProps) {
             </Grid>
           </Grid>
           <Box mt={5}>
-              <Footer />
-            </Box>
+            <Footer />
+          </Box>
         </form>
       </div>
     </Container>
@@ -171,6 +170,6 @@ function SignupPage({ dispatch, signingUp, signupError }: SignupPageProps) {
 const mapStateToProps = (state: RootState) => ({
   signingUp: !!state.authentication.signingUp,
   signupError: state.authentication.error
-})
+});
 const connectedSignupPage = connect(mapStateToProps)(SignupPage);
 export { connectedSignupPage as SignupPage };

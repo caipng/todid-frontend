@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     margin: 2,
     height: 8,
     width: 8,
-    "&:hover, &:focus": {
+    '&:hover, &:focus': {
       color: '#333'
     }
   }
@@ -21,10 +21,15 @@ export function Footer() {
 
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      Made with &#9829;<br />
+      Made with &#9829;
+      <br />
       Copyright &#169; Kaian {new Date().getFullYear()}.<br />
-      <a href="https://github.com/caipng" className={classes.link} target="_blank" rel="external"><GitHubIcon fontSize="small" /></a>
-      <a href="mailto:caikaian@comp.nus.edu.sg" className={classes.link}><EmailIcon fontSize="small" /></a>
+      <a href="https://github.com/caipng" className={classes.link} target="_blank" rel="external">
+        <GitHubIcon fontSize="small" />
+      </a>
+      <a href="mailto:caikaian@comp.nus.edu.sg" className={classes.link}>
+        <EmailIcon fontSize="small" />
+      </a>
     </Typography>
   );
 }

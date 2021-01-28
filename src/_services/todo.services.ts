@@ -12,8 +12,9 @@ export type Todo = {
   id: number;
   title: string;
   description: string;
-  dueTime: Date | null;
+  dueTime: dayjs.Dayjs | null;
   tags: string[];
+  completed: boolean;
 };
 
 async function getTodos(): Promise<Todo[]> {
@@ -25,17 +26,19 @@ async function getTodos(): Promise<Todo[]> {
       title,
       description,
       due_time,
-      tags
+      tags,
+      completed
     }: {
       id: number;
       title: string;
       description: string;
       due_time: string;
       tags: string | null;
+      completed: boolean;
     }) => {
       const dueTime = due_time ? dayjs(due_time) : null;
       const separated_tags = tags ? tags.split(',') : [];
-      return { id, title, description, dueTime, tags: separated_tags };
+      return { id, title, description, dueTime, tags: separated_tags, completed };
     }
   );
 }

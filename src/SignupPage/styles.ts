@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   logo: {
     width: 150,
     height: 150,
-    'margin-bottom': 30,
+    'margin-bottom': 30
   },
   title: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     'z-index': 1500,
     width: '100%'
-  },
+  }
 }));
 
 export default useStyles;
