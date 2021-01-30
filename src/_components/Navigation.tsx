@@ -130,7 +130,7 @@ type NavigationProps = {
 const Navigation = ({
   dispatch,
   tags,
-  filter: { filter: filterString, type: filterType },
+  filter: { filterString, filterType },
   filtersCounts: { defaultFiltersCounts, tagFiltersCounts }
 }: NavigationProps) => {
   const [open, setOpen] = useState(false);
@@ -275,7 +275,7 @@ const Navigation = ({
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Upcoming
+            {/* Upcoming */}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -297,7 +297,11 @@ const Navigation = ({
             </Tooltip>
           </IconButton>
 
-          <TodoForm open={todoFormOpen} handleClose={() => setTodoFormOpen(false)} title={'New Todo'} />
+          <TodoForm
+            open={todoFormOpen}
+            handleClose={() => setTodoFormOpen(false)}
+            title={'New Todo'}
+          />
 
           <IconButton color="inherit">
             <Tooltip title="About">

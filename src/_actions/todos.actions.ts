@@ -10,20 +10,24 @@ export type DefaultFiltersTypes =
 export type FiltersTypes = DefaultFiltersTypes | string;
 
 export const todosActions = {
-  new: () => ({ type: todosConstants.NEW }),
-  edit: (todo: Todo) => ({ type: todosConstants.EDIT, todo }),
-  filter: (filter: DefaultFiltersTypes): TodosActionTypes => ({
+  new: (): TodosActionTypes => ({ type: todosConstants.NEW }),
+  edit: (todo: Todo): TodosActionTypes => ({ type: todosConstants.EDIT, todo }),
+  filter: (filterString: DefaultFiltersTypes): TodosActionTypes => ({
     type: todosConstants.FILTER,
-    filter
+    filterString
   }),
-  filter_by_tag: (filter: string): TodosActionTypes => ({
+  filter_by_tag: (filterString: string): TodosActionTypes => ({
     type: todosConstants.FILTER_BY_TAG,
-    filter
+    filterString
   })
 };
 
-export type TodosActionTypes = {
-  type: todosConstants.FILTER | todosConstants.FILTER_BY_TAG;
-  filter?: FiltersTypes;
-  todo?: Todo;
-}
+export type TodosActionTypes =
+  | {
+      type: todosConstants.FILTER | todosConstants.FILTER_BY_TAG;
+      filterString: FiltersTypes;
+    }
+  | {
+      type: todosConstants.NEW | todosConstants.EDIT;
+      todo?: Todo;
+    };

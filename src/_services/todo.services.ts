@@ -5,7 +5,8 @@ import dayjs from 'dayjs';
 export const todoService = {
   getTodos,
   getTodo,
-  updateTodo
+  updateTodo,
+  createTodo
 };
 
 export type Todo = {
@@ -48,11 +49,32 @@ async function getTodo(id: number) {
   return (await parseResponse(res)) as Todo;
 }
 
-async function updateTodo(id: number, updatedTodo: Todo) {
+async function updateTodo(id: number, todo: Todo) {
   const res = await fetch(`${config.apiUrl}/todos/${id}`, {
     method: 'PUT',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedTodo)
+    body: JSON.stringify({
+      title: todo.title,
+      description: todo.description,
+      'due_time': todo.dueTime ? todo.dueTime.format() : null,
+      tags: todo.tags.join(','),
+      completed: todo.completed,
+    })
+  });
+  return (await parseResponse(res)) as Todo;
+}
+
+async function createTodo(todo: Todo) {
+  const res = await fetch(`${config.apiUrl}/todos`, {
+    method: 'POST',
+    headers: { ...authHeader(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: todo.title,
+      description: todo.description,
+      'due_time': todo.dueTime ? todo.dueTime.format() : null,
+      tags: todo.tags.join(','),
+      completed: false
+    })
   });
   return (await parseResponse(res)) as Todo;
 }

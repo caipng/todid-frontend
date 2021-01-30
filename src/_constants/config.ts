@@ -1,3 +1,4 @@
 export enum config {
-  apiUrl = 'http://localhost:3001'
+  apiUrl = 'http://todid-api.herokuapp.com'
+  // apiUrl = 'http://localhost:3001 '
 }

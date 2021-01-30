@@ -18,17 +18,14 @@ type HomePageProps = { user: User | undefined; filter: TodosState };
 
 const filterFunctions = {
   all: () => true,
-  today: (todo: Todo) => !!todo.dueTime && todo.dueTime.isSame(dayjs(), 'day'),
-  upcoming: (todo: Todo) => !!todo.dueTime,
+  today: (todo: Todo) => !todo.completed && !!todo.dueTime && todo.dueTime.isSame(dayjs(), 'day'),
+  upcoming: (todo: Todo) => !todo.completed && !!todo.dueTime,
   completed: (todo: Todo) => todo.completed,
-  inbox: (todo: Todo) => todo.tags.length === 0,
-  byTag: (tag: string) => (todo: Todo) => todo.tags.includes(tag)
+  inbox: (todo: Todo) => !todo.completed && todo.tags.length === 0,
+  byTag: (tag: string) => (todo: Todo) => !todo.completed && todo.tags.includes(tag)
 };
 
-export default function HomePage({
-  user,
-  filter: { type: filterType, filter: filterString }
-}: HomePageProps) {
+export default function HomePage({ user, filter: { filterType, filterString } }: HomePageProps) {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<(todo: Todo) => boolean>(() => filterFunctions.all);
   const classes = useStyles();
@@ -95,7 +92,7 @@ export default function HomePage({
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper className={classes.paper} variant="outlined">
-                <TodoList title="Upcoming" todos={todos.filter(filter)} />
+                <TodoList todos={todos.filter(filter)} />
               </Paper>
             </Grid>
           </Grid>
